@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Detalhes da Conversa</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .conversation-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+            .status {
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            .open {
+                background-color: #d4edda;
+                color: #155724;
+            }
+            .closed {
+                background-color: #f8d7da;
+                color: #721c24;
+                
+            }
+            .voltar {
+                background-color: #ede9d4;
+                color: #574815;
+                text-decoration: unset;
+                box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.6);
+            }
+            .messages {
+                margin-top: 20px;
+            }
+            .message {
+                margin-bottom: 15px;
+                padding: 10px;
+                border-radius: 8px;
+                max-width: 70%;
+            }
+            .received {
+                background-color: #f1f0f0;
+                align-self: flex-start;
+                margin-right: auto;
+            }
+            .sent {
+                background-color: #d1e7ff;
+                align-self: flex-end;
+                margin-left: auto;
+            }
+            .message-container {
+                display: flex;
+                flex-direction: column;
+            }
+            .message-time {
+                font-size: 12px;
+                color: #777;
+                margin-top: 5px;
+            }
+            .no-messages {
+                text-align: center;
+                color: #777;
+                margin-top: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="conversation-header">
+            <a class="status voltar" href="{% url 'conversation_list' %}">
+                Voltar
+            </a>
+            <h1>Conversa #{{ conversation.id|truncatechars:8 }}</h1>
+            <span class="status {% if conversation.status == 'OPEN' %}open{% else %}closed{% endif %}">
+                {{ conversation.status }}
+            </span>
+        </div>
+        
+        <div class="messages">
+            {% if conversation.messages.all %}
+                <div class="message-container">
+                    {% for message in conversation.messages.all %}
+                        <div class="message {% if message.direction == 'SENT' %}sent{% else %}received{% endif %}">
+                            {{ message.content }}
+                            <div class="message-time">{{ message.timestamp|date:"d/m/Y H:i:s" }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-messages">
+                    <p>Não há mensagens nesta conversa.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <script>
+            // Auto-reload a cada 30 segundos para atualizar as mensagens
+            setTimeout(function() {
+                location.reload();
+            }, 30000);
+        </script>
+    </body>
+</html> 

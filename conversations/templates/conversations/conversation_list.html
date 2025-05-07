@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Lista de Conversas</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .conversation-list {
+                list-style: none;
+                padding: 0;
+            }
+            .conversation-item {
+                padding: 15px;
+                margin-bottom: 10px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: background-color 0.2s;
+            }
+            .conversation-item:hover {
+                background-color: #f9f9f9;
+            }
+            .conversation-item a {
+                text-decoration: none;
+                color: #333;
+                flex-grow: 1;
+            }
+            .status {
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            .open {
+                background-color: #d4edda;
+                color: #155724;
+            }
+            .closed {
+                background-color: #f8d7da;
+                color: #721c24;
+            }
+            .empty-list {
+                text-align: center;
+                color: #777;
+                margin-top: 50px;
+            }
+            .conversation-time {
+                font-size: 12px;
+                color: #777;
+                margin-right: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Conversas no Sistema</h1>
+        
+        {% if conversations %}
+            <ul class="conversation-list">
+                {% for conversation in conversations %}
+                    <li class="conversation-item">
+                        <a href="{% url 'conversation_detail_template' conversation.id %}">
+                            Conversa #{{ conversation.id|truncatechars:8 }}
+                            <div style="float: inline-end;">
+                                <span class="conversation-time">
+                                    {{ conversation.updated_at|date:"d/m/Y H:i" }}
+                                </span>
+                                <span class="status {% if conversation.status == 'OPEN' %}open{% else %}closed{% endif %}">
+                                    {{ conversation.status }}
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-list">
+                <p>Não há conversas no sistema.</p>
+            </div>
+        {% endif %}
+        
+        <script>
+            // Auto-reload a cada 30 segundos para atualizar a lista
+            setTimeout(function() {
+                location.reload();
+            }, 30000);
+        </script>
+    </body>
+</html> 
