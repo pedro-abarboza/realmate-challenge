@@ -1,3 +1,10 @@
+# Pedro Alves Baboza Junior
+📫 pedro.abarboza@gmail.com
+
+📞 (11)9.6461-4847
+
+🔗 https://www.linkedin.com/in/pedro-abarboza/
+
 # realmate-challenge
 
 ## Introdução
